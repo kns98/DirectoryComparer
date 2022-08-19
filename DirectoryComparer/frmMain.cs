@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using DirectoryComparer.Objects;
 using System.IO;
-using DirectoryComparer.Services;
 using System.Threading;
+using System.Windows.Forms;
 using DirectoryComparer.Comparers;
 using DirectoryComparer.Interfaces;
+using DirectoryComparer.Objects;
 using DirectoryComparer.RegistryManager;
 
 namespace DirectoryComparer
@@ -23,39 +17,33 @@ namespace DirectoryComparer
         public frmMain()
         {
             InitializeComponent();
-            this.MaximizeBox = false;
+            MaximizeBox = false;
 
-            this.comparerWorker.DoWork += new DoWorkEventHandler(comparerWorker_DoWork);
-            this.comparerWorker.ProgressChanged += new ProgressChangedEventHandler(comparerWorker_ProgressChanged);
-            this.comparerWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(comparerWorker_RunWorkerCompleted);
+            comparerWorker.DoWork += comparerWorker_DoWork;
+            comparerWorker.ProgressChanged += comparerWorker_ProgressChanged;
+            comparerWorker.RunWorkerCompleted += comparerWorker_RunWorkerCompleted;
         }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            System.Environment.Exit(0);
+            Environment.Exit(0);
         }
 
         private void btnChoose1_Click(object sender, EventArgs e)
         {
-            DialogResult result = folderChooser.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK)
-            {
-                txtFolder1.Text = folderChooser.SelectedPath;
-            }
+            var result = folderChooser.ShowDialog();
+            if (result == DialogResult.OK) txtFolder1.Text = folderChooser.SelectedPath;
         }
 
         private void bnChoose2_Click(object sender, EventArgs e)
         {
-            DialogResult result = folderChooser.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK)
-            {
-                txtFolder2.Text = folderChooser.SelectedPath;
-            }
+            var result = folderChooser.ShowDialog();
+            if (result == DialogResult.OK) txtFolder2.Text = folderChooser.SelectedPath;
         }
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            string status = ValidateInputs();
+            var status = ValidateInputs();
 
             if (status != string.Empty)
             {
@@ -68,15 +56,15 @@ namespace DirectoryComparer
             DirectoryComparerBaseInfo.RightPath = txtFolder2.Text;
             DirectoryComparerBaseInfo.Recursive = chkRecursive.Checked;
 
-            comparerWorker.RunWorkerAsync();            
+            comparerWorker.RunWorkerAsync();
         }
 
         private CompareResultsPreferences GetPreferences()
         {
-            RegManager regManager = RegManager.getInstance();
-            string columns = regManager.getColumnPreferences();
-            CompareResultsPreferences prefs = new CompareResultsPreferences();
-            string finalCols = columns != string.Empty ? columns : "0,0,0,0,0,0";
+            var regManager = RegManager.getInstance();
+            var columns = regManager.getColumnPreferences();
+            var prefs = new CompareResultsPreferences();
+            var finalCols = columns != string.Empty ? columns : "0,0,0,0,0,0";
             prefs.DefaultLeftPath = regManager.getDefaultLeftDir();
             prefs.DefaultRightPath = regManager.getDefaultRightDir();
             prefs.Columns = ColumnItemHelper.GetColumns(finalCols);
@@ -89,13 +77,13 @@ namespace DirectoryComparer
             IDirectoryComparer recursiveComparer = new RecursiveDirectoryComparer(comparer);
             IResults results = recursiveComparer.CompareDirectories();
 
-            this.ReportProgress(100);
+            ReportProgress(100);
 
             Thread.Sleep(1000);
 
             e.Result = results;
         }
-        
+
         public void ClearProgress()
         {
             progressBar.Value = 0;
@@ -113,12 +101,12 @@ namespace DirectoryComparer
 
         private void comparerWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            IResults results = (IResults)e.Result;
-            
+            var results = (IResults)e.Result;
+
             _frmCompareResults = new frmCompareResults();
             _frmCompareResults.Results = results;
             _frmCompareResults.mainReference = this;
-            this.Hide();
+            Hide();
             _frmCompareResults.Show();
         }
 
@@ -147,7 +135,7 @@ namespace DirectoryComparer
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            CompareResultsPreferences prefs = GetPreferences();
+            var prefs = GetPreferences();
             txtFolder1.Text = prefs.DefaultLeftPath;
             txtFolder2.Text = prefs.DefaultRightPath;
         }

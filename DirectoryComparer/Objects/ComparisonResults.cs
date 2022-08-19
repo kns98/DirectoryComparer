@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using DirectoryComparer.Interfaces;
 
 namespace DirectoryComparer.Objects
@@ -13,9 +11,9 @@ namespace DirectoryComparer.Objects
 
         public List<CompareResult> CoalescedResults()
         {
-            return this.LeftResults
-                          .Concat(this.RightResults)
-                          .ToList();
+            return LeftResults
+                .Concat(RightResults)
+                .ToList();
         }
     }
 }

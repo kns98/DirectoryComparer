@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using DirectoryComparer.Objects;
 using System.IO;
-using DirectoryComparer.Services;
+using System.Linq;
+using System.Windows.Forms;
 using DirectoryComparer.Interfaces;
-using System.Text.RegularExpressions;
-using System.Reflection;
+using DirectoryComparer.Objects;
+using DirectoryComparer.Services;
 
 namespace DirectoryComparer
 {
@@ -19,9 +13,9 @@ namespace DirectoryComparer
     {
         public List<CompareResult> CompareResults;
 
-        public IResults Results;
-
         public frmMain mainReference;
+
+        public IResults Results;
 
         private ListViewItem selectedItem;
 
@@ -34,13 +28,13 @@ namespace DirectoryComparer
 
         private void InitializeListOperations()
         {
-            this.listView1.MouseDown += new MouseEventHandler(listView1_MouseDown);
+            listView1.MouseDown += listView1_MouseDown;
         }
 
-        void listView1_MouseDown(object sender, MouseEventArgs e)
+        private void listView1_MouseDown(object sender, MouseEventArgs e)
         {
             selectedItem = listView1.GetItemAt(e.X, e.Y);
-            if (selectedItem != null && e.Button == System.Windows.Forms.MouseButtons.Right)
+            if (selectedItem != null && e.Button == MouseButtons.Right)
             {
                 ManipulateContextMenuItems(selectedItem);
                 contextMenuStrip1.Show(listView1.PointToScreen(e.Location));
@@ -52,12 +46,12 @@ namespace DirectoryComparer
             foreach (ToolStripItem item in contextMenuStrip1.Items)
                 item.Enabled = true;
 
-            int serialNo = int.Parse(selectedItem.SubItems[0].Text);
-            string fileName = selectedItem.SubItems[1].Text;
-            string leftPath = selectedItem.SubItems[2].Text;
-            string rightPath = selectedItem.SubItems[3].Text;
+            var serialNo = int.Parse(selectedItem.SubItems[0].Text);
+            var fileName = selectedItem.SubItems[1].Text;
+            var leftPath = selectedItem.SubItems[2].Text;
+            var rightPath = selectedItem.SubItems[3].Text;
 
-            CompareResult currentItem = CompareResults.Single(s => s.SerialNo == serialNo);
+            var currentItem = CompareResults.Single(s => s.SerialNo == serialNo);
 
             if (currentItem.IsFile)
             {
@@ -79,63 +73,64 @@ namespace DirectoryComparer
 
         private void DisableContextMenuItems(params int[] list)
         {
-            foreach(var index in list)
+            foreach (var index in list)
                 contextMenuStrip1.Items[index].Enabled = false;
         }
 
         private void InitializeList()
         {
-            this.listView1.SmallImageList = ImagesManager.GetImages();
+            listView1.SmallImageList = ImagesManager.GetImages();
 
-            ColumnHeader serialNo = new ColumnHeader();
+            var serialNo = new ColumnHeader();
             serialNo.Text = "Serial No.";
             serialNo.Width = 50;
             serialNo.TextAlign = HorizontalAlignment.Center;
 
-            this.listView1.Columns.Add(serialNo);
-            this.listView1.Columns.Add("File/Folder Name").Width = 100;
-            this.listView1.Columns.Add("Left Folder").Width = 300;
-            this.listView1.Columns.Add("Right Folder").Width = 300;
-            this.listView1.Columns.Add("Match").Width = 100;
+            listView1.Columns.Add(serialNo);
+            listView1.Columns.Add("File/Folder Name").Width = 100;
+            listView1.Columns.Add("Left Folder").Width = 300;
+            listView1.Columns.Add("Right Folder").Width = 300;
+            listView1.Columns.Add("Match").Width = 100;
 
-            List<ColumnItem> columnItems = DirectoryComparerBaseInfo.Preferences.Columns;
+            var columnItems = DirectoryComparerBaseInfo.Preferences.Columns;
             foreach (var item in columnItems.Where(c => c.IsVisible))
-            {
-                this.listView1.Columns.Add(item.ColumnCaption).Width = 100;
-            }
+                listView1.Columns.Add(item.ColumnCaption).Width = 100;
         }
-        
+
         public void AddItems()
         {
             AddItems(CompareResults);
         }
 
         public void AddItems(List<CompareResult> compareResults)
-        {            
+        {
             listView1.Items.Clear();
             listView1.BeginUpdate();
             foreach (var item in compareResults)
             {
-                ListViewItem listItem = new ListViewItem(item.SerialNo.ToString());
+                var listItem = new ListViewItem(item.SerialNo.ToString());
 
                 if (!item.IsFile)
                     listItem.ImageIndex = 0;
 
                 listItem.SubItems.Add(item.GetFileOrFolderName());
-                listItem.SubItems.Add(item.LeftFilePath != string.Empty ? Path.GetDirectoryName(item.LeftFilePath) : string.Empty);
-                listItem.SubItems.Add(item.RightFilePath != string.Empty ? Path.GetDirectoryName(item.RightFilePath) : string.Empty);
+                listItem.SubItems.Add(item.LeftFilePath != string.Empty
+                    ? Path.GetDirectoryName(item.LeftFilePath)
+                    : string.Empty);
+                listItem.SubItems.Add(item.RightFilePath != string.Empty
+                    ? Path.GetDirectoryName(item.RightFilePath)
+                    : string.Empty);
                 listItem.SubItems.Add(GetMatchStatus(item));
 
-                List<ColumnItem> columnItems = DirectoryComparerBaseInfo.Preferences.Columns;
+                var columnItems = DirectoryComparerBaseInfo.Preferences.Columns;
                 foreach (var cItem in columnItems.Where(c => c.IsVisible))
-                {
                     listItem.SubItems.Add(item.GetValue(cItem.ColumnCaption));
-                }
 
                 listView1.Items.Add(listItem);
             }
+
             listView1.EndUpdate();
-        }        
+        }
 
         private string GetMatchStatus(CompareResult item)
         {
@@ -151,10 +146,55 @@ namespace DirectoryComparer
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
-            System.Environment.Exit(0);
+            Environment.Exit(0);
+        }
+
+        private void frmCompareResults_Load(object sender, EventArgs e)
+        {
+            CompareResults = AddSerialNumbers(Results.CoalescedResults());
+            AddItems();
+        }
+
+        private List<CompareResult> AddSerialNumbers(List<CompareResult> list)
+        {
+            for (var i = 0; i < list.Count; i++) list[i].SerialNo = i + 1;
+            return list;
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new frmAbout().ShowDialog();
+        }
+
+        private void SelectMenuItem(object sender)
+        {
+            ResetMenuItems("View");
+
+            var item = sender as ToolStripMenuItem;
+            item.Checked = true;
+
+            SetSelectedFilterChoice(showAllToolStripMenuItem);
+        }
+
+        private void SetSelectedFilterChoice(object sender)
+        {
+            ResetMenuItems("F&ilter");
+
+            var item = sender as ToolStripMenuItem;
+            item.Checked = true;
+        }
+
+        private void ResetMenuItems(string mnuStart)
+        {
+            foreach (ToolStripMenuItem menuItem in menuStrip1.Items)
+                if (menuItem.Text.Contains(mnuStart) && menuItem.HasDropDownItems)
+                    foreach (ToolStripItem mnuItem in menuItem.DropDownItems)
+                        if (mnuItem is ToolStripMenuItem)
+                            ((ToolStripMenuItem)mnuItem).Checked = false;
         }
 
         #region View menu related
+
         private void bothResultsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CompareResults = Results.CoalescedResults();
@@ -170,17 +210,19 @@ namespace DirectoryComparer
         }
 
         private void rightSideOnlyToolStripMenuItem_Click(object sender, EventArgs e)
-        {            
+        {
             CompareResults = Results.RightResults;
             AddItems();
             SelectMenuItem(sender);
         }
+
         #endregion
 
         #region File menu related
+
         private void compareFoldersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            Hide();
             mainReference.ClearProgress();
             mainReference.Show();
         }
@@ -192,9 +234,7 @@ namespace DirectoryComparer
             saveFileDialog1.ShowDialog();
 
             if (saveFileDialog1.FileName != "")
-            {
                 CompareResultExporter.ExportAsXml(CompareResults, saveFileDialog1.FileName);
-            }
         }
 
         private void asCSVToolStripMenuItem_Click(object sender, EventArgs e)
@@ -204,38 +244,18 @@ namespace DirectoryComparer
             saveFileDialog1.ShowDialog();
 
             if (saveFileDialog1.FileName != "")
-            {
                 CompareResultExporter.ExportAsCsv(CompareResults, saveFileDialog1.FileName);
-            }
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Environment.Exit(0);
+            Environment.Exit(0);
         }
+
         #endregion
 
-        private void frmCompareResults_Load(object sender, EventArgs e)
-        {
-            CompareResults = AddSerialNumbers(Results.CoalescedResults());
-            AddItems();
-        }
-
-        private List<CompareResult> AddSerialNumbers(List<CompareResult> list)
-        {
-            for (int i = 0; i < list.Count; i++)
-            {
-                list[i].SerialNo = (i + 1);
-            }
-            return list;
-        }
-
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            new frmAbout().ShowDialog();
-        }
-
         #region Filter menu related
+
         private void showAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var newCompareResults = CompareResults;
@@ -270,83 +290,53 @@ namespace DirectoryComparer
             AddItems(newCompareResults);
             SetSelectedFilterChoice(sender);
         }
+
         #endregion
 
-        private void SelectMenuItem(object sender)
-        {
-            ResetMenuItems("View");
-
-            ToolStripMenuItem item = sender as ToolStripMenuItem;
-            item.Checked = true;
-
-            SetSelectedFilterChoice(showAllToolStripMenuItem);
-        }        
-
-        private void SetSelectedFilterChoice(object sender)
-        {
-            ResetMenuItems("F&ilter");
-
-            ToolStripMenuItem item = sender as ToolStripMenuItem;
-            item.Checked = true;
-        }
-
-        private void ResetMenuItems(string mnuStart)
-        {
-            foreach (ToolStripMenuItem menuItem in menuStrip1.Items)
-            {
-                if (menuItem.Text.Contains(mnuStart) && menuItem.HasDropDownItems)
-                {
-                    foreach (ToolStripItem mnuItem in menuItem.DropDownItems)
-                    {
-                        if (mnuItem is ToolStripMenuItem)
-                            ((ToolStripMenuItem)mnuItem).Checked = false;
-                    }
-                }
-            }
-        }
-
         #region Context menu items
+
         private void openLeftFilewNotepa0ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string fileName = selectedItem.SubItems[2].Text.TrimEnd('\\') + '\\' + selectedItem.SubItems[1].Text;
+            var fileName = selectedItem.SubItems[2].Text.TrimEnd('\\') + '\\' + selectedItem.SubItems[1].Text;
             FileOrFolderActions.OpenFile(fileName);
         }
 
         private void openRightFilewNotepa0ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string fileName = selectedItem.SubItems[3].Text.TrimEnd('\\') + '\\' + selectedItem.SubItems[1].Text;
+            var fileName = selectedItem.SubItems[3].Text.TrimEnd('\\') + '\\' + selectedItem.SubItems[1].Text;
             FileOrFolderActions.OpenFile(fileName);
         }
 
         private void copyLeftPathToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            string fileOrFolderName = selectedItem.SubItems[2].Text.TrimEnd('\\') + '\\' + selectedItem.SubItems[1].Text;
-            System.Windows.Forms.Clipboard.SetText(fileOrFolderName);
+            var fileOrFolderName = selectedItem.SubItems[2].Text.TrimEnd('\\') + '\\' + selectedItem.SubItems[1].Text;
+            Clipboard.SetText(fileOrFolderName);
         }
 
         private void copyRightPathToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            string fileOrFolderName = selectedItem.SubItems[3].Text.TrimEnd('\\') + '\\' + selectedItem.SubItems[1].Text;
-            System.Windows.Forms.Clipboard.SetText(fileOrFolderName);
+            var fileOrFolderName = selectedItem.SubItems[3].Text.TrimEnd('\\') + '\\' + selectedItem.SubItems[1].Text;
+            Clipboard.SetText(fileOrFolderName);
         }
 
         private void openLeftFolderToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            string folderName = selectedItem.SubItems[2].Text.TrimEnd('\\') + '\\';
+            var folderName = selectedItem.SubItems[2].Text.TrimEnd('\\') + '\\';
             FileOrFolderActions.OpenFolder(folderName);
         }
 
         private void openRightFolderToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            string folderName = selectedItem.SubItems[3].Text.TrimEnd('\\') + '\\';
+            var folderName = selectedItem.SubItems[3].Text.TrimEnd('\\') + '\\';
             FileOrFolderActions.OpenFolder(folderName);
         }
 
         private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmPreferences preferences = new frmPreferences();
+            var preferences = new frmPreferences();
             preferences.ShowDialog();
         }
+
         #endregion
     }
 }

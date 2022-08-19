@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace DirectoryComparer.Objects
 {
@@ -26,7 +23,7 @@ namespace DirectoryComparer.Objects
 
         public override string ToString()
         {
-            string description = @"<File>
+            var description = @"<File>
                                     <FileName>{0}</FileName>
                                     <LeftFilePath>{1}</LeftFilePath>
                                     <RightFilePath>{2}</RightFilePath>
@@ -36,14 +33,14 @@ namespace DirectoryComparer.Objects
                                     <LeftFileModifiedDate>{6}</LeftFileModifiedDate>
                                     <RightFileModifiedDate>{7}</RightFileModifiedDate>
                                    </File>";
-            return string.Format(description, this.FileName, 
-                                              this.LeftFilePath, 
-                                              this.RightFilePath, 
-                                              this.Match,
-                                              this.LeftCreatedDate,
-                                              this.RightCreatedDate,
-                                              this.LeftModifiedDate,
-                                              this.RightModifiedDate);
+            return string.Format(description, FileName,
+                LeftFilePath,
+                RightFilePath,
+                Match,
+                LeftCreatedDate,
+                RightCreatedDate,
+                LeftModifiedDate,
+                RightModifiedDate);
         }
     }
 }

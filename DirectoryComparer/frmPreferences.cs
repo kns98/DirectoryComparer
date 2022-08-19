@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using DirectoryComparer.Objects;
-using System.Text.RegularExpressions;
-using System.IO;
 using DirectoryComparer.RegistryManager;
-using System.Diagnostics;
 
 namespace DirectoryComparer
 {
@@ -26,31 +22,30 @@ namespace DirectoryComparer
             textBox1.Text = DirectoryComparerBaseInfo.Preferences.DefaultLeftPath;
             textBox2.Text = DirectoryComparerBaseInfo.Preferences.DefaultRightPath;
 
-            List<ColumnItem> columnItems = DirectoryComparerBaseInfo.Preferences.Columns;
-            List<CheckBox> chkBoxes = GetCheckBoxes();
+            var columnItems = DirectoryComparerBaseInfo.Preferences.Columns;
+            var chkBoxes = GetCheckBoxes();
 
             foreach (var chkBox in chkBoxes)
-            {
-                chkBox.Checked = columnItems.Single(c => c.ColumnCaption == Regex.Replace(chkBox.Text, @"[&]", "")).IsVisible;
-            }
+                chkBox.Checked = columnItems.Single(c => c.ColumnCaption == Regex.Replace(chkBox.Text, @"[&]", ""))
+                    .IsVisible;
         }
 
         private List<CheckBox> GetCheckBoxes()
         {
-            List<CheckBox> chkBoxes = this.Controls
-                                          .Cast<Control>()
-                                          .OfType<GroupBox>()
-                                          .Single()
-                                          .Controls
-                                          .Cast<Control>()
-                                          .OfType<CheckBox>()
-                                          .ToList();
+            var chkBoxes = Controls
+                .Cast<Control>()
+                .OfType<GroupBox>()
+                .Single()
+                .Controls
+                .Cast<Control>()
+                .OfType<CheckBox>()
+                .ToList();
             return chkBoxes;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string strStatus = ValidateInputs();
+            var strStatus = ValidateInputs();
 
             if (!string.IsNullOrEmpty(strStatus))
             {
@@ -58,19 +53,19 @@ namespace DirectoryComparer
                 return;
             }
 
-            string columnStr = "{0},{1},{2},{3},{4},{5}";
+            var columnStr = "{0},{1},{2},{3},{4},{5}";
             columnStr = string.Format(columnStr,
-                                      checkBox2.Checked.ToInt(),
-                                      checkBox1.Checked.ToInt(),
-                                      checkBox4.Checked.ToInt(),
-                                      checkBox5.Checked.ToInt(),
-                                      checkBox6.Checked.ToInt(),
-                                      checkBox7.Checked.ToInt());
+                checkBox2.Checked.ToInt(),
+                checkBox1.Checked.ToInt(),
+                checkBox4.Checked.ToInt(),
+                checkBox5.Checked.ToInt(),
+                checkBox6.Checked.ToInt(),
+                checkBox7.Checked.ToInt());
 
             DirectoryComparerBaseInfo.Preferences.Columns = ColumnItemHelper.GetColumns(columnStr);
 
-            RegManager regManager = RegManager.getInstance();
-            bool status = regManager.writeColumnPreferences(columnStr);
+            var regManager = RegManager.getInstance();
+            var status = regManager.writeColumnPreferences(columnStr);
             status = regManager.writeDefaultLeftDir(textBox1.Text);
             status = regManager.writeDefaultRightDir(textBox2.Text);
             lblStatus.Text = status ? "Preferences saved" : "Errors were encountered";
@@ -101,33 +96,25 @@ namespace DirectoryComparer
 
         private void button2_Click(object sender, EventArgs e)
         {
-            DialogResult result = folderChooser.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK)
-            {
-                textBox1.Text = folderChooser.SelectedPath;
-            }
-
+            var result = folderChooser.ShowDialog();
+            if (result == DialogResult.OK) textBox1.Text = folderChooser.SelectedPath;
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            DialogResult result = folderChooser.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK)
-            {
-                textBox2.Text = folderChooser.SelectedPath;
-            }
-
+            var result = folderChooser.ShowDialog();
+            if (result == DialogResult.OK) textBox2.Text = folderChooser.SelectedPath;
         }
 
         private void btnRestart_Click(object sender, EventArgs e)
         {
-            string appPath = Application.ExecutablePath;
+            var appPath = Application.ExecutablePath;
 
-            Process process = new Process();
+            var process = new Process();
             process.StartInfo.FileName = appPath;
             process.Start();
 
-            System.Environment.Exit(0);
+            Environment.Exit(0);
         }
     }
 }

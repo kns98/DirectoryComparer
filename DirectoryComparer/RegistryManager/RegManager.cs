@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 
 namespace DirectoryComparer.RegistryManager
 {
@@ -10,9 +6,8 @@ namespace DirectoryComparer.RegistryManager
     {
         private static RegManager _regManager;
 
-        RegManager()
+        private RegManager()
         {
-
         }
 
         public static RegManager getInstance()
@@ -40,8 +35,8 @@ namespace DirectoryComparer.RegistryManager
 
         private string getValueByKey(string keyName)
         {
-            string regPath = RegistryKeyMap.getRegKeyPath(keyName);
-            RegistryKey columnKey = this.getReadableKeyPath(regPath.Split('\\'));
+            var regPath = RegistryKeyMap.getRegKeyPath(keyName);
+            var columnKey = getReadableKeyPath(regPath.Split('\\'));
             if (columnKey != null && columnKey.GetValue(keyName) != null)
                 return columnKey.GetValue(keyName).ToString();
             return string.Empty;
@@ -49,9 +44,9 @@ namespace DirectoryComparer.RegistryManager
 
         private RegistryKey getReadableKeyPath(string[] regSplit)
         {
-            RegistryKey itKey = this.getRootKey(regSplit[0]);
+            var itKey = getRootKey(regSplit[0]);
 
-            for (int i = 1; i < (regSplit.Length - 1); i++)
+            for (var i = 1; i < regSplit.Length - 1; i++)
             {
                 itKey = itKey.OpenSubKey(regSplit[i]);
                 if (itKey == null) return null;
@@ -81,12 +76,10 @@ namespace DirectoryComparer.RegistryManager
                 case "HKEY_CURRENT_CONFIG":
                     rootKey = Registry.CurrentConfig;
                     break;
-                default:
-                    break;
             }
 
             return rootKey;
-        }        
+        }
 
         public bool writeColumnPreferences(string columnStr)
         {
@@ -107,10 +100,10 @@ namespace DirectoryComparer.RegistryManager
         {
             try
             {
-                string regPath = RegistryKeyMap.getRegKeyPath(keyName);
-                string[] regPath_Split = regPath.Split("\\".ToCharArray());
+                var regPath = RegistryKeyMap.getRegKeyPath(keyName);
+                var regPath_Split = regPath.Split("\\".ToCharArray());
 
-                RegistryKey itKey = this.getWritableKeyPath(regPath_Split);
+                var itKey = getWritableKeyPath(regPath_Split);
 
                 if (itKey == null) return false;
 
@@ -128,9 +121,9 @@ namespace DirectoryComparer.RegistryManager
 
         private RegistryKey getWritableKeyPath(string[] regSplit)
         {
-            RegistryKey itKey = this.getRootKey(regSplit[0]);
+            var itKey = getRootKey(regSplit[0]);
 
-            for (int i = 1; i < (regSplit.Length - 1); i++)
+            for (var i = 1; i < regSplit.Length - 1; i++)
             {
                 itKey = itKey.CreateSubKey(regSplit[i]);
                 if (itKey == null) return null;

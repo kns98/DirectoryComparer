@@ -1,10 +1,8 @@
 ﻿// Thanks to http://stackoverflow.com/a/2150474/312219
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 using System.IO;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace DirectoryComparer.Services
 {
@@ -12,26 +10,26 @@ namespace DirectoryComparer.Services
     {
         public static string HashFile(string filePath)
         {
-            using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 return HashFile(fs);
             }
         }
 
-        public static string HashFile( FileStream stream )
+        public static string HashFile(FileStream stream)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
-            if( stream != null )
+            if (stream != null)
             {
-                stream.Seek( 0, SeekOrigin.Begin );
+                stream.Seek(0, SeekOrigin.Begin);
 
-                MD5 md5 = MD5CryptoServiceProvider.Create();
-                byte[] hash = md5.ComputeHash( stream );
-                foreach( byte b in hash )
-                    sb.Append( b.ToString( "x2" ) );
+                var md5 = MD5.Create();
+                var hash = md5.ComputeHash(stream);
+                foreach (var b in hash)
+                    sb.Append(b.ToString("x2"));
 
-                stream.Seek( 0, SeekOrigin.Begin );
+                stream.Seek(0, SeekOrigin.Begin);
             }
 
             return sb.ToString();

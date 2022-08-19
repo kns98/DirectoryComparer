@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace DirectoryComparer.Objects
 {
@@ -22,14 +20,14 @@ namespace DirectoryComparer.Objects
     {
         public static List<ColumnItem> GetColumns(string columnStr)
         {
-            return new List<ColumnItem>()
+            return new List<ColumnItem>
             {
-                new ColumnItem { ColumnCaption = "Left Created Date", IsVisible = (columnStr.Split(',')[0] == "1")},
-                new ColumnItem { ColumnCaption = "Right Created Date", IsVisible = (columnStr.Split(',')[1] == "1")},
-                new ColumnItem { ColumnCaption = "Left Modified Date", IsVisible = (columnStr.Split(',')[2] == "1")},
-                new ColumnItem { ColumnCaption = "Right Modified Date", IsVisible = (columnStr.Split(',')[3] == "1")},
-                new ColumnItem { ColumnCaption = "Left Hash", IsVisible = (columnStr.Split(',')[4] == "1")},
-                new ColumnItem { ColumnCaption = "Right Hash", IsVisible = (columnStr.Split(',')[5] == "1")}
+                new ColumnItem { ColumnCaption = "Left Created Date", IsVisible = columnStr.Split(',')[0] == "1" },
+                new ColumnItem { ColumnCaption = "Right Created Date", IsVisible = columnStr.Split(',')[1] == "1" },
+                new ColumnItem { ColumnCaption = "Left Modified Date", IsVisible = columnStr.Split(',')[2] == "1" },
+                new ColumnItem { ColumnCaption = "Right Modified Date", IsVisible = columnStr.Split(',')[3] == "1" },
+                new ColumnItem { ColumnCaption = "Left Hash", IsVisible = columnStr.Split(',')[4] == "1" },
+                new ColumnItem { ColumnCaption = "Right Hash", IsVisible = columnStr.Split(',')[5] == "1" }
             };
         }
     }

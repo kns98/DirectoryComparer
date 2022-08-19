@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace DirectoryComparer.Objects
+﻿namespace DirectoryComparer.Objects
 {
     public static class DirectoryComparerBaseInfo
     {
