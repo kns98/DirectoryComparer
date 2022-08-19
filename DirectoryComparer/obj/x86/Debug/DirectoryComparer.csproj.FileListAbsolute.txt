@@ -11,3 +11,18 @@ C:\Users\Karthik\Documents\Visual Studio 2010\Projects\DirectoryComparer\Directo
 C:\Users\Karthik\Documents\Visual Studio 2010\Projects\DirectoryComparer\DirectoryComparer\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\Users\Karthik\Documents\Visual Studio 2010\Projects\DirectoryComparer\DirectoryComparer\obj\x86\Debug\Directory Comparer.exe
 C:\Users\Karthik\Documents\Visual Studio 2010\Projects\DirectoryComparer\DirectoryComparer\obj\x86\Debug\Directory Comparer.pdb
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparer\bin\Debug\Directory Comparer.exe.config
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparer\bin\Debug\Directory Comparer.exe
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparer\bin\Debug\Directory Comparer.pdb
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparer\obj\x86\Debug\DirectoryComparer.csproj.AssemblyReference.cache
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparer\obj\x86\Debug\DirectoryComparer.csproj.SuggestedBindingRedirects.cache
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparer\obj\x86\Debug\DirectoryComparer.DirectoryComparerIcons.resources
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparer\obj\x86\Debug\DirectoryComparer.frmAbout.resources
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparer\obj\x86\Debug\DirectoryComparer.frmCompareResults.resources
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparer\obj\x86\Debug\DirectoryComparer.frmMain.resources
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparer\obj\x86\Debug\DirectoryComparer.frmPreferences.resources
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparer\obj\x86\Debug\DirectoryComparer.Properties.Resources.resources
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparer\obj\x86\Debug\DirectoryComparer.csproj.GenerateResource.cache
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparer\obj\x86\Debug\DirectoryComparer.csproj.CoreCompileInputs.cache
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparer\obj\x86\Debug\Directory Comparer.exe
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparer\obj\x86\Debug\Directory Comparer.pdb

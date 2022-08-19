@@ -5,3 +5,16 @@ C:\Users\Karthik\Documents\Visual Studio 2010\Projects\DirectoryComparer\Directo
 C:\Users\Karthik\Documents\Visual Studio 2010\Projects\DirectoryComparer\DirectoryComparerUnitTests\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\Karthik\Documents\Visual Studio 2010\Projects\DirectoryComparer\DirectoryComparerUnitTests\obj\Debug\DirectoryComparerUnitTests.dll
 C:\Users\Karthik\Documents\Visual Studio 2010\Projects\DirectoryComparer\DirectoryComparerUnitTests\obj\Debug\DirectoryComparerUnitTests.pdb
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparerUnitTests\bin\Debug\DirectoryComparerUnitTests.dll
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparerUnitTests\bin\Debug\DirectoryComparerUnitTests.pdb
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparerUnitTests\bin\Debug\Directory Comparer.exe
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparerUnitTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparerUnitTests\bin\Debug\Directory Comparer.pdb
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparerUnitTests\bin\Debug\Directory Comparer.exe.config
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparerUnitTests\bin\Debug\zh-Hans\Microsoft.VisualStudio.QualityTools.UnitTestFramework.resources.dll
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparerUnitTests\bin\Debug\zh-Hant\Microsoft.VisualStudio.QualityTools.UnitTestFramework.resources.dll
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparerUnitTests\obj\Debug\DirectoryComparerUnitTests.csproj.AssemblyReference.cache
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparerUnitTests\obj\Debug\DirectoryComparerUnitTests.csproj.CoreCompileInputs.cache
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparerUnitTests\obj\Debug\DirectoryComparerUnitTests.csproj.CopyComplete
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparerUnitTests\obj\Debug\DirectoryComparerUnitTests.dll
+C:\Users\kevin\Source\Repos\kns98\DirectoryComparer\DirectoryComparerUnitTests\obj\Debug\DirectoryComparerUnitTests.pdb
